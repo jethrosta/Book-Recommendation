@@ -304,16 +304,19 @@ Author with high ratings from user
 Top 10 Book Recommendation for user: 278450
 
 --------------------------------
-1. Harper Lee : To Kill a Mockingbird
-2. Robert T. Kiyosaki : Rich Dad, Poor Dad: What the Rich Teach Their Kids About Money--That the Poor and Middle Class Do Not!
-3. Carl Sagan : The Demon-Haunted World: Science As a Candle in the Dark
-4. Chitra Banerjee Divakaruni : Arranged Marriage: Stories
-5. Chitra Banerjee Divakaruni : The Unknown Errors of Our Lives: Stories
-6. George Orwell : 1984
-7. Jacqueline Carey : Kushiel's Chosen (Kushiel's Legacy)
-8. JOHN GRISHAM : The Runaway Jury
-9. Anne Bishop : Daughter of the Blood (Black Jewels Trilogy)
-10. Anne Rice : Memnoch the Devil (Vampire Chronicles, No 5)
+| **No.** | **Author**                    | **Book Title**                                                                                       |
+|---------|-------------------------------|-----------------------------------------------------------------------------------------------------|
+| 1       | Harper Lee                    | To Kill a Mockingbird                                                                                |
+| 2       | Robert T. Kiyosaki            | Rich Dad, Poor Dad: What the Rich Teach Their Kids About Money--That the Poor and Middle Class Do Not! |
+| 3       | Carl Sagan                     | The Demon-Haunted World: Science As a Candle in the Dark                                              |
+| 4       | Chitra Banerjee Divakaruni     | Arranged Marriage: Stories                                                                            |
+| 5       | Chitra Banerjee Divakaruni     | The Unknown Errors of Our Lives: Stories                                                             |
+| 6       | George Orwell                  | 1984                                                                                                 |
+| 7       | Jacqueline Carey               | Kushiel's Chosen (Kushiel's Legacy)                                                                  |
+| 8       | JOHN GRISHAM                   | The Runaway Jury                                                                                   |
+| 9       | Anne Bishop                    | Daughter of the Blood (Black Jewels Trilogy)                                                        |
+| 10      | Anne Rice                      | Memnoch the Devil (Vampire Chronicles, No 5)                                                         |
+
 
 sehingga apabila divisualisasikan dalam bentuk tabel, maka hasil pendekatan kedua sistem rekomendasi diatas dapat dilihat pada tabel dibawah berikut.
 
