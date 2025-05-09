@@ -187,6 +187,7 @@ Dalam proyek ini, metrik evaluasi yang digunakan pada Content-Based Filtering ad
 - **F1-score** adalah rata-rata harmonis dari Precision dan Recall yang berguna untuk menyeimbangkan keduanya.
 
 **Rumus Evaluasi :**
+
 $$
   Precision = \frac{True Positive}{Total Rekomendasi}
 $$
@@ -202,8 +203,11 @@ $$
 Metrik Evaluasi pada Collaborative Filtering menggunakan Mean Absolut Error(MAE) dan RMSE (Root Mean Squared Error). Dimana RMSE menunjukkan seberapa besar error prediksi model dari ground truth (semakin kecil, semakin baik).
 
 **MAE**: MAE memberikan rata-rata kesalahan absolut. Nilai yang lebih rendah menunjukkan model yang lebih baik. Sebagai aturan umum, MAE yang lebih kecil dari 10% dari rentang nilai target sering dianggap baik.
+
 $$\text{RMSE}(y, \hat{y}) = \sqrt{\frac{\sum_{i=0}^{N - 1} (y_i - \hat{y}_i)^2}{N}}$$
+
 **RMSE**: RMSE memberikan penalti yang lebih besar untuk kesalahan yang lebih besar karena kesalahan dikuadratkan. Ini membuat RMSE lebih sensitif terhadap outlier. Nilai RMSE yang lebih rendah menunjukkan model yang lebih baik.
+
 $$\text{MAE}(y, \hat{y}) = \frac{\sum_{i=0}^{N - 1} |y_i - \hat{y}_i|}{N}$$
 
 ### Hasil Evaluasi
@@ -216,19 +220,6 @@ Pada pendekatan Content-based filtering, model memberikan hasil :
 - F1-score: 71.43%
 Kemudian ketika diminta rekomendasi dengan penulis yang telah dibaca oleh user, sistem dapat memberikan beberapa rekomendasi buku seperti berikut:
 <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -297,7 +288,7 @@ Pada metode ini menggunakan matrix evaluase RMSE dan MAE dengan hasil :
 - RMSE : 21.8%
 - MAE : 17.2%
 Kemudian ketika sistem diminta untuk memberikan 10 buku rekomendasi dengan model `RecommanderNet` maka dengan grafik pelatihan sebagai berikut
-![alt text](image.png)
+![alt text](Assets/image.png)
 
 Menunjukkan hasil rekomendasi seperti berikut
 Showing recommendations for users: 278450
