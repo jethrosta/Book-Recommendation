@@ -38,10 +38,11 @@ Hal ini berkontribusi terhadap rendahnya skor PISA Indonesia dibandingkan negara
 Teknologi yang terus berkembang dan *gadget* yang menjadi benda yang selalu digenggam oleh generasi muda Indonesia atau disebut Handphone Pintar, ternyata tidak cukup pintar untuk meningkatkan minat baca mereka. Beberapa penyebab dari kurangnya minat baca generasi muda di Indonesia adalah :
 - Buku tidak sesuai minat/kebutuhan pembaca 
 - Kurangnya sistem personalisasi dalam penyajian konten literasi
-- Tidak ada *feedback* dalam penyesuaian konten
 
 ### Goals
+
 ![Teen Reading a Book](https://newsone.com/wp-content/uploads/sites/22/2022/08/16600434609052.jpg?strip=all&quality=80)
+
 Permasalahan diatas dapat diatasi dengan salah satu teknologi AI dimana tujuannya adalah :
 - **Meningkatkan minat baca dan keterlibatan generasi muda Indonesia**
 Hal ini dapat dicapai dengan menciptakan sebuah sistem yang dapat mengenali dan melakukan personalisasi minat setiap anak melalui perangkat pintar mereka masing-masing yang disebut Recommendation System.
@@ -49,7 +50,9 @@ Hal ini dapat dicapai dengan menciptakan sebuah sistem yang dapat mengenali dan 
 Sistem rekomendasi ini dibangun untuk meningkatkan personalisasi dan rekomendasi buku berdasarkan interaksi anak muda dengan buku-buku yang pernah dibaca maupun dengan pengguna lainnya.
 
 **Rubrik Tambahan**:
+
 ![Ilustrasi Metode Sistem Rekomendasi](https://lh4.googleusercontent.com/0NoiKF9NDEM0_daE0Wwfmyq9Z5sRCMIoNM0Fst-JJr9Hi0dG7PSSZeUM_Xok3lW762UbDYit8bCz_p8vZ7rJO9XuSKbRyUPFk_gTIgA2G2i_PmknJUc8l91nB-Stx77z1tMxtFsxIOpjXh0bAenftLfk6KqMXJoA9SOhcd8lKQf1ZWev7gL2gOaaZf7wsw)
+
 Untuk mencapai goals tersebut kita perlu menemukan pendekatan solusi kecerdasan buatan dengan metode tertentu yang diantaranya adalah :
   ### Content Based Filtering
   Metode ini merupakan salah satu metode rekomendasi dimana sistem akan menggunakan karakteristik atau sifat dari item/produk yang nantinnya akan dijadikan landasan atau basis dalam rekomendasi kepada user. Secara umum Content-Based Filtering menggunakan 2 teknik umum dalam membuat rekomendasi, *heuristic-based* dan *model-based*. Untuk detailnya adalah sebagai berikut :
@@ -67,47 +70,77 @@ Untuk mencapai goals tersebut kita perlu menemukan pendekatan solusi kecerdasan 
 
 
 ## Data Understanding
-Sumber Data : [Book Recommendation Dataset](https://www.kaggle.com/datasets/arashnic/book-recommendation-dataset/data)
+-  Sumber Data : [Book Recommendation Dataset](https://www.kaggle.com/datasets/arashnic/book-recommendation-dataset/data)
 
+Dataset diambil dari Kaggle merupakan dataset yang bertujuan menciptakan sistem rekomendasi berbasis data User, data Buku seperti ISBN, judul, penulis, dan penerbit, serta data rating yang berisi jumlah rating user terhadap item buku.
+
+- Jumlah baris dan kolom
 Dataset tersebut memiliki 3 file yang bernama `Books.csv`,`Ratings.csv`, dan `Users.csv`. 
+  - Books.csv memiliki 271360 baris dan 8 kolom
+  - Ratings.csv memiliki 1149780 baris dan 3 kolom
+  - Users.csv memiliki 278858 baris dan 3 kolom
 
-- Pertama, pada `Books.csv` 3 kolom/fitur yang tidak berpengaruh pada sistem rekomendasi, terdapat 4 data yang mengalami **missing values** yang berada pada fitur *Book-Author* dan *Publisher*. Judul fitur juga tidak rapih, sehingga pada fitur Book-Author, Year-Of-Publication, dan Book-Title diganti menjadi book_author, YoP, dan book_title.
-- Kedua, `Ratings.csv` tidak terdapat **missing values**, tidak terdapat **duplicated data**, dan semua fitur penting untuk sistem rekomendasi sehingga datanya cukup bersih.
-- Ketiga, `Users.csv` memiliki 110.762 data yang mengalami `missing values` pada kolom **Age** dan daftar lokasi yang tidak rapih. Selebihnya data tersebut cukup bersih dan dapat ditindaklanjuti.
+- Kondisi Data
+  - Pertama, pada `Books.csv` 3 kolom/fitur yang tidak berpengaruh pada sistem rekomendasi, terdapat 4 data yang mengalami **missing values** yang berada pada fitur *Book-Author* dan *Publisher*. Judul fitur juga tidak rapih, sehingga pada fitur Book-Author, Year-Of-Publication, dan Book-Title diganti menjadi book_author, YoP, dan book_title.
+  - Kedua, `Ratings.csv` tidak terdapat **missing values**, tidak terdapat **duplicated data**, dan semua fitur penting untuk sistem rekomendasi sehingga datanya cukup bersih.
+  - Ketiga, `Users.csv` memiliki 110.762 data yang mengalami `missing values` pada kolom **Age** dan daftar lokasi yang tidak rapih. Selebihnya data tersebut cukup bersih dan dapat ditindaklanjuti.
 
-- Jumlah data yang didapatkan dari data pada dataset diatas adalah :
-  - 271.360 baris dengan 8 kolom pada `Books.csv`
-  - 1.149.780 dengan 3 kolom pada `Ratings.csv`
-  - dan 278.858 dengan 3 kolom pada `Users.csv`
+  - Jumlah data yang didapatkan dari data pada dataset diatas adalah :
+    - 271.360 baris dengan 8 kolom pada `Books.csv`
+    - 1.149.780 dengan 3 kolom pada `Ratings.csv`
+    - dan 278.858 dengan 3 kolom pada `Users.csv`
 
+- Uraian Seluruh Fitur Pada Data
 
-Variabel-variabel pada Book Recommendation Dataset adalah sebagai berikut:
-| **Variabel**         | **Deskripsi**                                                                                              |
-|----------------------|------------------------------------------------------------------------------------------------------------|
-| **Users ID**          | ID user yang telah dimapping dan dianomalisasi menjadi data integer.                                        |
-| **Location**          | Lokasi user dari negara, negara bagian, dan nama desa.                                                     |
-| **Age**               | Umur dari user.                                                                                             |
-| **Book_Title**        | Judul buku yang telah dibaca.                                                                                |
-| **Book_Author**       | Penulis dari buku tersebut.                                                                                  |
-| **ISBN**              | Nomor identifikasi buku. Setiap buku dengan judul yang sama, tetapi memiliki penerbit atau tahun rilis yang berbeda memiliki ISBN yang berbeda. |
-| **Year of Publication** | Tahun terbit dari buku tersebut.                                                                            |
-| **Publisher**         | Penerbit dari buku tersebut.                                                                                 |
-| **Image-URL-S**       | Gambar cover buku tersebut dengan ukuran Small.                                                              |
-| **Image-URL-M**       | Gambar cover buku tersebut dengan ukuran Medium.                                                             |
-| **Image-URL-L**       | Gambar cover buku tersebut dengan ukuran Large.                                                              |
-| **Book-Rating**       | Hasil ulasan buku dari user dengan rentang 0 hingga 10.                                                      |
+  Variabel-variabel pada `Books.csv`:
+  | **Variabel**         | **Deskripsi**                                                                                              |
+  |----------------------|------------------------------------------------------------------------------------------------------------|
+  | **Users ID**          | ID user yang telah dimapping dan dianomalisasi menjadi data integer.                                        |
+  | **Location**          | Lokasi user dari negara, negara bagian, dan nama desa.                                                     |
+  | **Age**               | Umur dari user.                                                                                             |
+  | **Book_Title**        | Judul buku yang telah dibaca.                                                                                |
+  | **Book_Author**       | Penulis dari buku tersebut.                                                                                  |
+  | **ISBN**              | Nomor identifikasi buku. Setiap buku dengan judul yang sama, tetapi memiliki penerbit atau tahun rilis yang berbeda memiliki ISBN yang berbeda. |
+  | **Year of Publication** | Tahun terbit dari buku tersebut.                                                                            |
+  | **Publisher**         | Penerbit dari buku tersebut.                                                                                 |
+  | **Image-URL-S**       | Gambar cover buku tersebut dengan ukuran Small.                                                              |
+  | **Image-URL-M**       | Gambar cover buku tersebut dengan ukuran Medium.                                                             |
+  | **Image-URL-L**       | Gambar cover buku tersebut dengan ukuran Large.                                                              |
+  | **Book-Rating**       | Hasil ulasan buku dari user dengan rentang 0 hingga 10.                                                      |
+
+  Uraian pada `Ratings.csv`
+
+  | **Variabel**    | **Deskripsi**                                                                                                                    |
+  | --------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+  | **User-ID**     | ID unik dari setiap pengguna yang memberikan rating.                                                                             |
+  | **ISBN**        | Nomor identifikasi buku. Setiap buku dengan judul yang sama namun penerbit atau tahun terbit berbeda akan memiliki ISBN berbeda. |
+  | **Book-Rating** | Nilai rating yang diberikan oleh user untuk buku tertentu, biasanya dalam rentang 1 hingga 5.                                    |
+
+  Uraian pada `Users.csv`
+
+  | **Variabel** | **Deskripsi**                                                                                   |
+  | ------------ | ----------------------------------------------------------------------------------------------- |
+  | **User-ID**  | ID unik untuk setiap pengguna yang telah dianonimkan menjadi data integer.                      |
+  | **Location** | Lokasi pengguna yang terdiri dari negara, negara bagian, dan kota/desa, dipisahkan oleh koma.   |
+  | **Age**      | Umur pengguna. |
+
 
 
 **Rubrik Tambahan**:
-Untuk memahami data, perlu dilakukan **`Exploratory Data Analysis(EDA)`**. Tahapan ini cukup penting untuk memahami konteks dari data yang ada seperti bentuk data, jumlah data, dan juga isi dari data itu sendiri. Adapula detail dari EDA sendiri sebagai berikut :
+Untuk memahami data, perlu dilakukan **`Exploratory Data Analysis(EDA)`**. Tahapan ini cukup penting untuk memahami konteks dari data yang ada seperti bentuk data, jumlah data, dan juga isi dari data itu sendiri. Adapula detail dari EDA yang dilakukan pada project ini adalah sebagai berikut :
 - Mengatasi Missing Values
-Penting karena setiap dataset pasti terdapat data yang tidak lengkap atau salah entah itu karena pengambilan datanya atau pengisian data dari user itu sendiri.
-- Visualisasi Data
-Penting untuk melihat distribusi data, seperti jumlah rating, penulis yang produktif, tahun buku yang dibaca, atau publisher yang produktif mencetak buku.
-- Menentukan Fitur Penting
-Tidak semua fitur akan digunakan pada sistem rekomendasi. Oleh karena itu, penting bagi kita untuk bisa menentukan fitur-fitur mana saja yang dapat digunakan dan dapat dihapus untuk meningkatkan akurasi dari sistem rekomendasi.
-- Menilai kualitas dan kelengkapan data
-Setelah semuanya dilakukan maka kualitas data yang baik akan memberikan kualitas sistem yang baik pula.
+Terdapat beberapa missing values pada books.csv, ratings.csv, maupun users.csv. Masalah ini diatasi dengan melakukan proses `drop` pada data-data yang hilang tersebut karena jumlah dataset yang masih banyak dan lebih sedikit dibanding data yang bernilai 0.
+- Penghapusan fitur
+Pada dataset books.csv terdapat fitur yang tidak diperlukan untuk proses training sistem rekomendasi, sehingga dapat dihapus, seperti gambar novel yang berukuran M, S, dan L. Apabila diperlukan untuk visualisasi tidak apa-apa, tetapi dalam projeck ini tidak diperlukan dalam proses training model sehingga kita dapat melakukan `drop` kolom tersebut.
+- Mengganti nama fitur
+Pada books.csv, rating.csv, dan users.csv dilakukan rename fitur hal ini dikarenakan format penulisan yang sulit diproses ketika diproses ke tahap selanjutnya membuat penggantian nama perlu dilakukan dengan fungsi `.rename()`
+- Menghapus diplicated data
+Terdapat duplicated data pada ketika dataset dan silakukan diawal proses EDA.
+- Features Selection
+Fitur yang paling penting dipilih dan digunakan untuk proses training selanjutnya
+- TF-IDF
+Metode statistik untuk mengukur kepentingan suatu kata dalam dokumen terhadap dokumen lainnya. Pada Content-based filtering kita menggunakan ini agar dapat mengukur seberapa penting sebuah judul atau penulis dari sebuah dataset relatif terhadap kumpulin data lainnya pada dataset tersebut. Cara menghitungnya dengan menghitung frekuensi kemunculan suatu kata dalam dokumen tersebut. Kedua dengan menghitung Inverse Document Frequency, yaitu rasio antara jumlah dokumen dan jumlah dokumen yang mengandung kata tersebut.
+
 
 ## Data Preparation
 ![Data Clean Illustration](https://sp-ao.shortpixel.ai/client/to_auto,q_lossy,ret_img,w_1595/https://mammoth.io/wp-content/uploads/2024/02/data-preparation-with-mammoth.jpg)
@@ -119,20 +152,34 @@ Persiapan data juga dilakukan untuk mempermudah proses pembuatan model sistem re
 - `Merge` : menggunakan metode left join, menggabungkan dataframe berdasarkan kolom kunci(key) dan mempertahankan sisi kiri meskipun tidak ada pasangan yang cocok di dataframe sebelah kanan. Ini penting agar setiap interaksi user (misal: rating) punya konteks lengkap (misalnya judul buku, genre). Bisa menghasilkan fitur gabungan (misalnya rating buku berdasarkan genre, usia user, dsb). Model punya representasi lengkap terhadap relasi user–item.
 - `Series to List` : Proses mengubah object series menjadi list menggunakan metode .to_list() yang sudah disediakan oleh library pandas. Tujuannya adalah untuk mempersiapkan data sebelum masuk ke proses modeling yang melatih data berbasis list seperti sklearn dan operasi matrix yang akan kita lakukan dalam membangun sistem rekomendasi.
 
-## Modeling
+## Model & Results
 Pada tahap ini, dilakukan proses pembangunan dan evaluasi model sistem rekomendasi buku untuk mendorong peningkatan minat baca generasi muda Indonesia. Sistem rekomendasi ini dibangun menggunakan dua pendekatan utama: **Content-Based Filtering** dan **Collaborative Filtering**, kemudian disajikan dalam bentuk Top-10 Recommendation sebagai output yang dipersonalisasi untuk setiap pengguna.
 
 ### **Content-Based Filtering**
 Content-Based Filtering merekomendasikan buku berdasarkan kemiripan konten dengan buku yang sebelumnya disukai atau dibaca oleh pengguna. Fitur-fitur konten yang digunakan antara lain:
 
-- Penerbit
+
 - Penulis
-- Judul Buku
-- Panjang teks atau tingkat kesulitan membaca
 
 Model ini memanfaatkan teknik seperti:
 - TF-IDF Vectorization pada nama Penulis
-- Cosine Similarity untuk mengukur kemiripan antar buku
+- Cosine Similarity untuk mengukur kemiripan antar penulis
+
+Hasil dari pembuatan model untuk Content-Based Filtering ditunjukkan dengan top N rekomendasi berikut:
+**Rekomendasi dengan buku yang pernah dibaca adalah "The Diaries of Adam and Eve"**
+| No | Book Title                                         | Book Author |
+|-------|----------------------------------------------------|-------------|
+| 1     | The Adventures of Tom Sawyer                       | Mark Twain  |
+| 2     | The Adventures of Tom Sawyer                       | Mark Twain  |
+| 3     | A Connecticut Yankee in King Arthur's Court (D...  | Mark Twain  |
+| 4     | A Connecticut Yankee in King Arthur's Court        | Mark Twain  |
+| 5     | A Connecticut Yankee in King Arthur's Court        | Mark Twain  |
+| 6     | A Connecticut Yankee in King Arthur's Court        | Mark Twain  |
+| 7     | A Connecticut Yankee in King Arthur's Court        | Mark Twain  |
+| 8     | Treasury of Illustrated Classics: Adventures o...  | Mark Twain  |
+| 9     | The Adventures of Tom Sawyer                       | Mark Twain  |
+| 10     | The Adventures of Tom Sawyer                       | Mark Twain  |
+
 
 ### **Collaborative Filtering**
 Collaborative Filtering merekomendasikan buku berdasarkan perilaku pengguna lain yang memiliki kesamaan preferensi. Model ini tidak melihat konten buku, tetapi menggunakan data seperti:
@@ -143,7 +190,23 @@ Model dibangun dengan pendekatan:
 - User-based Collaborative Filtering → Kemiripan antar pengguna
 - Item-based Collaborative Filtering → Kemiripan antar buku berdasarkan pengguna yang menyukai/penulis yang sama
 
-Output akhir dari sistem ini berupa Top-10 buku rekomendasi yang ditampilkan kepada setiap pengguna berdasarkan preferensi generasi muda. Hasil disajikan secara interaktif di platform baca digital.
+Hasil N Top Rekomendasi pada Collaborative Filtering ditunjukkan sebagai berikut:
+
+**Top 10 Book Recommendations for User 278450**
+
+| Rank | Author                          | Book Title                                                            |
+|------|---------------------------------|----------------------------------------------------------------------|
+| 1    | Harper Lee                      | To Kill a Mockingbird                                                 |
+| 2    | Robert T. Kiyosaki              | Rich Dad, Poor Dad: What the Rich Teach Their Kids About Money--That the Poor and Middle Class Do Not! |
+| 3    | Carl Sagan                      | The Demon-Haunted World: Science As a Candle in the Dark              |
+| 4    | Chitra Banerjee Divakaruni      | Arranged Marriage: Stories                                            |
+| 5    | Chitra Banerjee Divakaruni      | The Unknown Errors of Our Lives: Stories                              |
+| 6    | George Orwell                   | 1984                                                                 |
+| 7    | Jacqueline Carey               | Kushiel's Chosen (Kushiel's Legacy)                                   |
+| 8    | JOHN GRISHAM                    | The Runaway Jury                                                      |
+| 9    | Anne Bishop                     | Daughter of the Blood (Black Jewels Trilogy)                          |
+| 10   | Anne Rice                       | Memnoch the Devil (Vampire Chronicles, No 5)                          |
+
 
 ### Komparasi Model
 #### Content-Based Filtering
@@ -180,7 +243,7 @@ Jika jumlah pengguna besar, perhitungan kemiripan bisa sangat berat secara kompu
 3. Data Sparsity
 Sistem bisa kurang akurat jika data rating terlalu sedikit atau jarang diisi
 
-## Evaluation
+
 Dalam proyek ini, metrik evaluasi yang digunakan pada Content-Based Filtering adalah `Precision`, `Recall`, dan `F1-score` karena sistem rekomendasi yang dibangun bertujuan untuk memberikan daftar penulis yang paling mirip berdasarkan kesamaan dengan penulis yang sudah dibaca oleh pengguna. 
 - **Precision** mengukur seberapa banyak rekomendasi yang benar-benar ditulis oleh penulis yang sama dari seluruh hasil rekomendasi.
 - **Recall** mengukur sejauh mana sistem berhasil merekomendasikan seluruh buku dari penulis yang sama yang ada dalam dataset.
@@ -203,11 +266,8 @@ $$
 Metrik Evaluasi pada Collaborative Filtering menggunakan Mean Absolut Error(MAE) dan RMSE (Root Mean Squared Error). Dimana RMSE menunjukkan seberapa besar error prediksi model dari ground truth (semakin kecil, semakin baik).
 
 **MAE**: MAE memberikan rata-rata kesalahan absolut. Nilai yang lebih rendah menunjukkan model yang lebih baik. Sebagai aturan umum, MAE yang lebih kecil dari 10% dari rentang nilai target sering dianggap baik.
-
 $$\text{RMSE}(y, \hat{y}) = \sqrt{\frac{\sum_{i=0}^{N - 1} (y_i - \hat{y}_i)^2}{N}}$$
-
 **RMSE**: RMSE memberikan penalti yang lebih besar untuk kesalahan yang lebih besar karena kesalahan dikuadratkan. Ini membuat RMSE lebih sensitif terhadap outlier. Nilai RMSE yang lebih rendah menunjukkan model yang lebih baik.
-
 $$\text{MAE}(y, \hat{y}) = \frac{\sum_{i=0}^{N - 1} |y_i - \hat{y}_i|}{N}$$
 
 ### Hasil Evaluasi
@@ -220,6 +280,7 @@ Pada pendekatan Content-based filtering, model memberikan hasil :
 - F1-score: 71.43%
 Kemudian ketika diminta rekomendasi dengan penulis yang telah dibaca oleh user, sistem dapat memberikan beberapa rekomendasi buku seperti berikut:
 <div>
+  
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -288,21 +349,15 @@ Pada metode ini menggunakan matrix evaluase RMSE dan MAE dengan hasil :
 - RMSE : 21.8%
 - MAE : 17.2%
 Kemudian ketika sistem diminta untuk memberikan 10 buku rekomendasi dengan model `RecommanderNet` maka dengan grafik pelatihan sebagai berikut
-![alt text](Assets/image.png)
+![alt text](image.png)
 
 Menunjukkan hasil rekomendasi seperti berikut
 Showing recommendations for users: 278450
 
-===========================
-
-Author with high ratings from user
-
-========================
-
 --------------------------------
 
 Top 10 Book Recommendation for user: 278450
-
+`
 --------------------------------
 | **No.** | **Author**                    | **Book Title**                                                                                       |
 |---------|-------------------------------|-----------------------------------------------------------------------------------------------------|
@@ -326,3 +381,6 @@ sehingga apabila divisualisasikan dalam bentuk tabel, maka hasil pendekatan kedu
 | Collaborative Filtering   | -                | -                | -               | 21.8%      | 17.2%       |
 
 Hasil dari evaluasi matrix memberikan insight bahwa model memberikan hasil yang cukup baik untuk sistem rekomendasi dan memberikan generalisasi konten yang baik untuk rekomendasi buku berbasis judul dan penulis buku sehingga harapannya minat baca generasi muda Indonesia dapat meningkat, lalu menaikkan peringkat PISA Indonesia, dan dapat meningkatkan SDM Indonesia di kancah international.
+
+## Evaluation
+Dengan sistem rekomendasi berbasis AI ini  dapat meningkatkan minat baca buku digenerasi muda sehingga bacaan mereka sesuai dengan minat/kebutuhannya. Kemudian sistem personalisasi dalam penyajian konten literasi juga ditingkatkan agar setiap anak juga memiliki personalisasinya masing-masing yang tersimpan pada agen sistem rekomendasi yang telah kita bangun. Dengan hasil ini `Goals` kita dalam meningkatkan minat baca dan keterlibatan generasi muda Indonesia dapat tercapai dan Sistem Rekomendasi Buku kita telah dikembangkan.
