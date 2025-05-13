@@ -349,7 +349,8 @@ Pada metode ini menggunakan matrix evaluase RMSE dan MAE dengan hasil :
 - RMSE : 21.8%
 - MAE : 17.2%
 Kemudian ketika sistem diminta untuk memberikan 10 buku rekomendasi dengan model `RecommanderNet` maka dengan grafik pelatihan sebagai berikut
-![alt text](image.png)
+
+![alt text](./Assets/image.png)
 
 Menunjukkan hasil rekomendasi seperti berikut
 Showing recommendations for users: 278450
