@@ -130,9 +130,11 @@ Dataset tersebut memiliki 3 file yang bernama `Books.csv`,`Ratings.csv`, dan `Us
   Pada data tersebut terlihat bahwa Agatha Christie merupakan Penulis paling produktif diantara semua penulis di dataset tersebut disusul oleh William Shakespeare dan Stephen King.
 - Kemudian melihat persebaran data dari rating buku dapat dilihat pada visualisasi berikut.
 ![Rating buku](/Assets/book_rating.png)
+
   Dapat dilihat bahwa lebih banyak data user yang tidak memberikan rating alias bintang 0(dari 10).
 - Lalu distribusi tahun terbit dari dataset ditampilkan seperti berikut
 ![Year Publication Distribution](/Assets/distribution_year.png)
+
 Terlihat bahwa terdapat data yang bukunya tidak diketahui tahun terbitnya.
 
 **Rubrik Tambahan**:
@@ -358,7 +360,8 @@ Kemudian ketika diminta rekomendasi dengan penulis yang telah dibaca oleh user, 
 Pada metode ini menggunakan matrix evaluase RMSE dan MAE dengan hasil :
 - RMSE : 21.8%
 - MAE : 17.2%
-Kemudian ketika sistem diminta untuk memberikan 10 buku rekomendasi dengan model `RecommanderNet` maka dengan grafik pelatihan sebagai berikut
+Kemudian ketika sistem diminta untuk memberikan 10 buku rekomendasi dengan model `RecommanderNet` maka dengan grafik pelatihan sebagai berikut:
+
 ![alt text](Assets/image.png)
 
 Menunjukkan hasil rekomendasi seperti berikut
