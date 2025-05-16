@@ -124,28 +124,53 @@ Dataset tersebut memiliki 3 file yang bernama `Books.csv`,`Ratings.csv`, dan `Us
   | **Location** | Lokasi pengguna yang terdiri dari negara, negara bagian, dan kota/desa, dipisahkan oleh koma.   |
   | **Age**      | Umur pengguna. |
 
+- Apabila divisualisasikan terhadap data penulis buku, terdapat 10 nama penulis yang memiliki jumlah buku paling banyak atau dengan kata lain produktif.
+![top 10 penulis](Assets/Prolific%20Authors.png)
 
+  Pada data tersebut terlihat bahwa Agatha Christie merupakan Penulis paling produktif diantara semua penulis di dataset tersebut disusul oleh William Shakespeare dan Stephen King.
+- Kemudian melihat persebaran data dari rating buku dapat dilihat pada visualisasi berikut.
+![Rating buku](/Assets/book_rating.png)
+  Dapat dilihat bahwa lebih banyak data user yang tidak memberikan rating alias bintang 0(dari 10).
+- Lalu distribusi tahun terbit dari dataset ditampilkan seperti berikut
+![Year Publication Distribution](/Assets/distribution_year.png)
+Terlihat bahwa terdapat data yang bukunya tidak diketahui tahun terbitnya.
 
 **Rubrik Tambahan**:
-Untuk memahami data, perlu dilakukan **`Exploratory Data Analysis(EDA)`**. Tahapan ini cukup penting untuk memahami konteks dari data yang ada seperti bentuk data, jumlah data, dan juga isi dari data itu sendiri. Adapula detail dari EDA yang dilakukan pada project ini adalah sebagai berikut :
-- Mengatasi Missing Values
-Terdapat beberapa missing values pada books.csv, ratings.csv, maupun users.csv. Masalah ini diatasi dengan melakukan proses `drop` pada data-data yang hilang tersebut karena jumlah dataset yang masih banyak dan lebih sedikit dibanding data yang bernilai 0.
-- Penghapusan fitur
-Pada dataset books.csv terdapat fitur yang tidak diperlukan untuk proses training sistem rekomendasi, sehingga dapat dihapus, seperti gambar novel yang berukuran M, S, dan L. Apabila diperlukan untuk visualisasi tidak apa-apa, tetapi dalam projeck ini tidak diperlukan dalam proses training model sehingga kita dapat melakukan `drop` kolom tersebut.
-- Mengganti nama fitur
-Pada books.csv, rating.csv, dan users.csv dilakukan rename fitur hal ini dikarenakan format penulisan yang sulit diproses ketika diproses ke tahap selanjutnya membuat penggantian nama perlu dilakukan dengan fungsi `.rename()`
-- Menghapus diplicated data
-Terdapat duplicated data pada ketika dataset dan silakukan diawal proses EDA.
-- Features Selection
-Fitur yang paling penting dipilih dan digunakan untuk proses training selanjutnya
-- TF-IDF
-Metode statistik untuk mengukur kepentingan suatu kata dalam dokumen terhadap dokumen lainnya. Pada Content-based filtering kita menggunakan ini agar dapat mengukur seberapa penting sebuah judul atau penulis dari sebuah dataset relatif terhadap kumpulin data lainnya pada dataset tersebut. Cara menghitungnya dengan menghitung frekuensi kemunculan suatu kata dalam dokumen tersebut. Kedua dengan menghitung Inverse Document Frequency, yaitu rasio antara jumlah dokumen dan jumlah dokumen yang mengandung kata tersebut.
-
+Untuk memahami data, perlu dilakukan **`Exploratory Data Analysis(EDA)`**. Tahapan ini cukup penting untuk memahami konteks dari data yang ada seperti bentuk data, jumlah data, dan juga isi dari data itu sendiri. Adapula detail dari EDA yang dilakukan pada project ini akan dijelaskan pada bagian [Perisapan Data](#data-preparation)
 
 ## Data Preparation
 ![Data Clean Illustration](https://sp-ao.shortpixel.ai/client/to_auto,q_lossy,ret_img,w_1595/https://mammoth.io/wp-content/uploads/2024/02/data-preparation-with-mammoth.jpg)
 
-Persiapan data juga dilakukan untuk mempermudah proses pembuatan model sistem rekomendasi. Pada tahapan pertama dilakukan sampling, mengambil sebagian data dari keseluruhan dataset, sebanyak 10.000 data pertama. Hal ini dikarenakan dataset yang dimiliki terlampau banyak dan dapat mengakibatkan kepenuhan memory dan menghentikan proses modeling. Kedua, ketiga data dilakukan merge Books.csv dan Ratings.csv dengan menggabungkan data ISBN dan metode `left`. Kemudian dataframe tersebut diubah menjadi `.to_list()`.
+Pada tahap ini kita melakukan EDA dengan detail sebagai berikut:
+Pada ketiga dataset, diawal kita melakukan `drop_duplicates()` untuk menghilangkan data duplikat.
+### Data Preperation pada `df_books.csv`
+- Menghapus duplicated data
+Terdapat duplicated data pada ketika dataset dan silakukan diawal proses EDA.
+- Penghapusan fitur
+Pada dataset books.csv terdapat fitur yang tidak diperlukan untuk proses training sistem rekomendasi, sehingga dapat dihapus, seperti gambar novel yang berukuran M, S, dan L. Apabila diperlukan untuk visualisasi tidak apa-apa, tetapi dalam projeck ini tidak diperlukan dalam proses training model sehingga kita dapat melakukan `drop` kolom tersebut.
+- Mengatasi Missing Values
+Terdapat 2 missing values pada kolom publisher dan Book-Author. Dengan jumlah yang sedikit maka dapat diterapkan dropna.
+- Mengganti nama fitur
+Pada books.csv dilakukan rename fitur hal ini dikarenakan format penulisan yang sulit diproses ketika diproses ke tahap selanjutnya membuat penggantian nama perlu dilakukan dengan fungsi `.rename()`
+- Features Selection
+Fitur yang paling penting dipilih dan digunakan untuk proses training selanjutnya adalah ISBN, judul buku, nama penulis, dan tahun terbit buku.
+### Data Preperation pada `df_ratings.csv`
+- Mengganti nama fitur
+Pada dataset df_ratings.csv terdapat karakter pada nama fitur yang perlu diganti agar pemrosesan data lebih cepat tanpa kendala maka perlu dilakukan operasi 'rename'.
+Setelah dilakukan pengecekan, ternyata dataset df_ratings.csv cukup bersih tanpa ada missing values, duplicated data, dan featuresnya memiliki bobot untuk pembangunan sistem rekomendasi.
+
+### Data preperation pada `df_users.csv`
+dataset ini memiliki 3 kolom, **User-ID**, **Location**, dan **Age**
+- Menghapus missin values
+pada kolom **Age** terdapat 110762 data user yang belum memiliki data. Dengan jumlah sebanyak itu, akan disayangkan apabila kita menghapusnya semua dengan metode dropna. Maka kita dapat mengisinya dengan betode Group-by Location dimana kecenderungan di wilayah *A* memiliki rata-rata umur *X* tahun, maka data yang kosong apabila berada di wilayah *A* maka akan diisi dengan umur *X* tahun.
+- Pembenahan isi data Location
+Ketika dilihat lebih dalam, ternyata data lokasi user memiliki inputan yang tidak seragam dan cenderung redundan, seperti USA, US, America, United States, dll. Maka dari itu user melakukan manipulasi data dengan Regex dimana hanya mengambil negaranya saja.
+- Pemilihan Features
+
+### TF-IDF
+Terakhir adalah dengan menerapkan TF-IDF, metode statistik untuk mengukur kepentingan suatu kata dalam dokumen terhadap dokumen lainnya. Pada Content-based filtering kita menggunakan ini agar dapat mengukur seberapa penting sebuah judul atau penulis dari sebuah dataset relatif terhadap kumpulin data lainnya pada dataset tersebut. Cara menghitungnya dengan menghitung frekuensi kemunculan suatu kata dalam dokumen tersebut. Kedua dengan menghitung Inverse Document Frequency, yaitu rasio antara jumlah dokumen dan jumlah dokumen yang mengandung kata tersebut.
+
+Tahapan ini juga dilakukan untuk mempermudah proses pembuatan model sistem rekomendasi. Pada tahapan pertama dilakukan sampling, mengambil sebagian data dari keseluruhan dataset, sebanyak 10.000 data pertama. Hal ini dikarenakan dataset yang dimiliki terlampau banyak dan dapat mengakibatkan kepenuhan memory dan menghentikan proses modeling. Kedua, ketiga data dilakukan merge Books.csv dan Ratings.csv dengan menggabungkan data ISBN dan metode `left`. Kemudian dataframe tersebut diubah menjadi `.to_list()`.
 
 **Rubrik Tambahan**: 
 - `Sampling` : Mengambil sebagian data(10.000 baris pertama) dari keseluruhan dataset.
@@ -157,15 +182,17 @@ Pada tahap ini, dilakukan proses pembangunan dan evaluasi model sistem rekomenda
 
 ### **Content-Based Filtering**
 Content-Based Filtering merekomendasikan buku berdasarkan kemiripan konten dengan buku yang sebelumnya disukai atau dibaca oleh pengguna. Fitur-fitur konten yang digunakan antara lain:
-
-
 - Penulis
 
 Model ini memanfaatkan teknik seperti:
 - TF-IDF Vectorization pada nama Penulis
 - Cosine Similarity untuk mengukur kemiripan antar penulis
 
+1. Menggunakan metode `cosine similarity`, yaitu teknik untuk mengukur kesamaan antara dua vektor berdasarkan sudut di antara mereka. Pada proyek ini, library **sklearn.metrics.pairwise** digunakan untuk menghitung `cosine similarity`.
+2. Fungsi `author_recommendations()` digunakan untuk memberikan rekomendasi berdasarkan kesamaan penulis **(Book-Author)**. Fungsi ini kemungkinan mengambil nama penulis sebagai input dan mengembalikan buku-buku lain dari penulis yang sama atau penulis dengan profil serupa.
+
 Hasil dari pembuatan model untuk Content-Based Filtering ditunjukkan dengan top N rekomendasi berikut:
+
 **Rekomendasi dengan buku yang pernah dibaca adalah "The Diaries of Adam and Eve"**
 | No | Book Title                                         | Book Author |
 |-------|----------------------------------------------------|-------------|
@@ -189,6 +216,16 @@ Collaborative Filtering merekomendasikan buku berdasarkan perilaku pengguna lain
 Model dibangun dengan pendekatan:
 - User-based Collaborative Filtering → Kemiripan antar pengguna
 - Item-based Collaborative Filtering → Kemiripan antar buku berdasarkan pengguna yang menyukai/penulis yang sama
+
+1. Library `Surprise`, `Tensorflow`, dan `Keras` digunakan untuk membangun model rekomendasi berbasis collaborative filtering. Dataset yang digunakan terdiri dari df_ratings yang berisi informasi rating dari pengguna terhadap buku. Ini merupakan data interaksi user-item. 
+2. Model dibangun dengan kelas `RecommenderNet` untuk melatih Neural Network. **Embedding** adalah cara untuk mengubah ID pengguna dan ID restoran menjadi vektor numerik yang lebih kecil dan lebih mudah dikelola. Vektor ini menangkap informasi penting tentang pengguna dan restoran.
+Setiap pengguna dan restoran diwakili oleh vektor yang memiliki ukuran tetap (ditentukan oleh embedding_size). Selain embedding, model juga mempertimbangkan bias untuk setiap pengguna dan restoran. Bias ini membantu model untuk menyesuaikan prediksi berdasarkan kecenderungan umum pengguna atau restoran. Ketika model menerima input (pasangan ID pengguna dan ID restoran), langkah-langkah berikut dilakukan:
+    - Ambil Vektor: Model mengambil vektor embedding untuk pengguna dan restoran yang sesuai.
+    - Hitung Interaksi: Model menghitung interaksi antara pengguna dan restoran dengan melakukan produk titik (dot product) antara vektor pengguna dan vektor restoran. Ini memberikan nilai yang menunjukkan seberapa baik pengguna dan restoran "cocok" satu sama lain.
+    - Tambahkan Bias: Model menambahkan bias pengguna dan restoran ke nilai interaksi untuk mendapatkan prediksi akhir.
+    - Aktivasi Sigmoid: Model menerapkan fungsi aktivasi sigmoid pada hasil akhir, yang mengubah nilai menjadi rentang antara 0 dan 1. Nilai ini dapat diartikan sebagai probabilitas atau rating yang menunjukkan seberapa besar kemungkinan pengguna menyukai restoran tersebut.
+
+Secara sederhana, algoritma ini menggunakan teknik embedding untuk merepresentasikan pengguna dan penulis, menghitung interaksi antara keduanya, dan menyesuaikan prediksi dengan bias. Dengan cara ini, model dapat memberikan rekomendasi yang lebih akurat berdasarkan data yang ada.
 
 Hasil N Top Rekomendasi pada Collaborative Filtering ditunjukkan sebagai berikut:
 
@@ -242,33 +279,6 @@ Sulit bekerja jika pengguna baru (tidak ada histori) atau item baru (belum ada u
 Jika jumlah pengguna besar, perhitungan kemiripan bisa sangat berat secara komputasi
 3. Data Sparsity
 Sistem bisa kurang akurat jika data rating terlalu sedikit atau jarang diisi
-
-
-Dalam proyek ini, metrik evaluasi yang digunakan pada Content-Based Filtering adalah `Precision`, `Recall`, dan `F1-score` karena sistem rekomendasi yang dibangun bertujuan untuk memberikan daftar penulis yang paling mirip berdasarkan kesamaan dengan penulis yang sudah dibaca oleh pengguna. 
-- **Precision** mengukur seberapa banyak rekomendasi yang benar-benar ditulis oleh penulis yang sama dari seluruh hasil rekomendasi.
-- **Recall** mengukur sejauh mana sistem berhasil merekomendasikan seluruh buku dari penulis yang sama yang ada dalam dataset.
-- **F1-score** adalah rata-rata harmonis dari Precision dan Recall yang berguna untuk menyeimbangkan keduanya.
-
-**Rumus Evaluasi :**
-
-$$
-  Precision = \frac{True Positive}{Total Rekomendasi}
-$$
-
-$$
-  Recall = \frac{True Positive}{Total buku oleh Penulis}
-$$
-
-$$
-  F1-Score = 2.\frac{Precision . Recall}{Precision + Recall}
-$$
-
-Metrik Evaluasi pada Collaborative Filtering menggunakan Mean Absolut Error(MAE) dan RMSE (Root Mean Squared Error). Dimana RMSE menunjukkan seberapa besar error prediksi model dari ground truth (semakin kecil, semakin baik).
-
-**MAE**: MAE memberikan rata-rata kesalahan absolut. Nilai yang lebih rendah menunjukkan model yang lebih baik. Sebagai aturan umum, MAE yang lebih kecil dari 10% dari rentang nilai target sering dianggap baik.
-$$\text{RMSE}(y, \hat{y}) = \sqrt{\frac{\sum_{i=0}^{N - 1} (y_i - \hat{y}_i)^2}{N}}$$
-**RMSE**: RMSE memberikan penalti yang lebih besar untuk kesalahan yang lebih besar karena kesalahan dikuadratkan. Ini membuat RMSE lebih sensitif terhadap outlier. Nilai RMSE yang lebih rendah menunjukkan model yang lebih baik.
-$$\text{MAE}(y, \hat{y}) = \frac{\sum_{i=0}^{N - 1} |y_i - \hat{y}_i|}{N}$$
 
 ### Hasil Evaluasi
 Pada bagian ini memvisualisasikan hasil evaluasi matrix antara model berbasis Content-Based dan Collaborative Filtering.
@@ -349,8 +359,7 @@ Pada metode ini menggunakan matrix evaluase RMSE dan MAE dengan hasil :
 - RMSE : 21.8%
 - MAE : 17.2%
 Kemudian ketika sistem diminta untuk memberikan 10 buku rekomendasi dengan model `RecommanderNet` maka dengan grafik pelatihan sebagai berikut
-
-![alt text](./Assets/image.png)
+![alt text](image.png)
 
 Menunjukkan hasil rekomendasi seperti berikut
 Showing recommendations for users: 278450
@@ -383,5 +392,39 @@ sehingga apabila divisualisasikan dalam bentuk tabel, maka hasil pendekatan kedu
 
 Hasil dari evaluasi matrix memberikan insight bahwa model memberikan hasil yang cukup baik untuk sistem rekomendasi dan memberikan generalisasi konten yang baik untuk rekomendasi buku berbasis judul dan penulis buku sehingga harapannya minat baca generasi muda Indonesia dapat meningkat, lalu menaikkan peringkat PISA Indonesia, dan dapat meningkatkan SDM Indonesia di kancah international.
 
+Dalam proyek ini, metrik evaluasi yang digunakan pada Content-Based Filtering adalah `Precision`, `Recall`, dan `F1-score` karena sistem rekomendasi yang dibangun bertujuan untuk memberikan daftar penulis yang paling mirip berdasarkan kesamaan dengan penulis yang sudah dibaca oleh pengguna. 
+- **Precision** mengukur seberapa banyak rekomendasi yang benar-benar ditulis oleh penulis yang sama dari seluruh hasil rekomendasi.
+- **Recall** mengukur sejauh mana sistem berhasil merekomendasikan seluruh buku dari penulis yang sama yang ada dalam dataset.
+- **F1-score** adalah rata-rata harmonis dari Precision dan Recall yang berguna untuk menyeimbangkan keduanya.
+
+**Rumus Evaluasi :**
+
+$$
+  Precision = \frac{True Positive}{Total Rekomendasi}
+$$
+
+$$
+  Recall = \frac{True Positive}{Total buku oleh Penulis}
+$$
+
+$$
+  F1-Score = 2.\frac{Precision . Recall}{Precision + Recall}
+$$
+
+Metrik Evaluasi pada Collaborative Filtering menggunakan Mean Absolut Error(MAE) dan RMSE (Root Mean Squared Error). Dimana RMSE menunjukkan seberapa besar error prediksi model dari ground truth (semakin kecil, semakin baik).
+
+**MAE**: MAE memberikan rata-rata kesalahan absolut. Nilai yang lebih rendah menunjukkan model yang lebih baik. Sebagai aturan umum, MAE yang lebih kecil dari 10% dari rentang nilai target sering dianggap baik.
+
+$$\text{RMSE}(y, \hat{y}) = \sqrt{\frac{\sum_{i=0}^{N - 1} (y_i - \hat{y}_i)^2}{N}}$$
+
+**RMSE**: RMSE memberikan penalti yang lebih besar untuk kesalahan yang lebih besar karena kesalahan dikuadratkan. Ini membuat RMSE lebih sensitif terhadap outlier. Nilai RMSE yang lebih rendah menunjukkan model yang lebih baik.
+
+$$\text{MAE}(y, \hat{y}) = \frac{\sum_{i=0}^{N - 1} |y_i - \hat{y}_i|}{N}$$
+
+
 ## Evaluation
-Dengan sistem rekomendasi berbasis AI ini  dapat meningkatkan minat baca buku digenerasi muda sehingga bacaan mereka sesuai dengan minat/kebutuhannya. Kemudian sistem personalisasi dalam penyajian konten literasi juga ditingkatkan agar setiap anak juga memiliki personalisasinya masing-masing yang tersimpan pada agen sistem rekomendasi yang telah kita bangun. Dengan hasil ini `Goals` kita dalam meningkatkan minat baca dan keterlibatan generasi muda Indonesia dapat tercapai dan Sistem Rekomendasi Buku kita telah dikembangkan.
+Dengan sistem rekomendasi berbasis AI ini  dapat meningkatkan minat baca buku digenerasi muda sehingga bacaan mereka sesuai dengan minat/kebutuhannya. Kemudian sistem personalisasi dalam penyajian konten literasi juga ditingkatkan agar setiap anak juga memiliki personalisasinya masing-masing yang tersimpan pada agen sistem rekomendasi yang telah kita bangun. Dengan hasil ini `Goals` kita :
+1. Meningkatkan minat baca dan keterlibatan generasi muda Indonesia ✅
+hal ini tercapai karena sistem rekomendasi buku dapat melakuka personalisasi pembaca dengan buku yang ada sehingga Problem Statements kita yang pertama, **"Buku tidak sesuai minat/kebutuhan pembaca"** dapat terselesaikan
+2. Sistem Rekomendasi Buku kita telah dikembangkan. ✅
+Kita telah berhasil membuat AI untuk melakukan rekomendasi buku melalui 2 pendekatan, Content-based filtering dan Collaborative Filtering sehingga dapat memberikan akurasi yang general pada user berdasarkan 2 pendekatan masing-masing sehingga menyelesaikan Problem Statements yang kedua, **Kurangnya sistem personalisasi dalam penyajian konten literasi**
