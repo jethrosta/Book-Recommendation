@@ -424,7 +424,8 @@ $$\text{MAE}(y, \hat{y}) = \frac{\sum_{i=0}^{N - 1} |y_i - \hat{y}_i|}{N}$$
 
 ## Evaluation
 Dengan sistem rekomendasi berbasis AI ini  dapat meningkatkan minat baca buku digenerasi muda sehingga bacaan mereka sesuai dengan minat/kebutuhannya. Kemudian sistem personalisasi dalam penyajian konten literasi juga ditingkatkan agar setiap anak juga memiliki personalisasinya masing-masing yang tersimpan pada agen sistem rekomendasi yang telah kita bangun. Dengan hasil ini `Goals` kita :
-1. Meningkatkan minat baca dan keterlibatan generasi muda Indonesia ✅
-hal ini tercapai karena sistem rekomendasi buku dapat melakuka personalisasi pembaca dengan buku yang ada sehingga Problem Statements kita yang pertama, **"Buku tidak sesuai minat/kebutuhan pembaca"** dapat terselesaikan
-2. Sistem Rekomendasi Buku kita telah dikembangkan. ✅
-Kita telah berhasil membuat AI untuk melakukan rekomendasi buku melalui 2 pendekatan, Content-based filtering dan Collaborative Filtering sehingga dapat memberikan akurasi yang general pada user berdasarkan 2 pendekatan masing-masing sehingga menyelesaikan Problem Statements yang kedua, **Kurangnya sistem personalisasi dalam penyajian konten literasi**
+1. Meningkatkan minat baca dan keterlibatan generasi muda Indonesia.✅
+<br>Hal ini tercapai karena sistem rekomendasi buku dapat melakuka personalisasi pembaca dengan buku yang ada sehingga Problem Statements kita yang pertama, **"Buku tidak sesuai minat/kebutuhan pembaca"** dapat terselesaikan
+
+3. Sistem Rekomendasi Buku kita telah dikembangkan.✅
+<br>Kita telah berhasil membuat AI untuk melakukan rekomendasi buku melalui 2 pendekatan, Content-based filtering dan Collaborative Filtering sehingga dapat memberikan akurasi yang general pada user berdasarkan 2 pendekatan masing-masing sehingga menyelesaikan Problem Statements yang kedua, **Kurangnya sistem personalisasi dalam penyajian konten literasi**
