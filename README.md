@@ -24,7 +24,6 @@ Referensi:
 - [Narasi Skor PISA Indonesia Jangan Seolah-olah Prestasi](https://www.kompas.id/baca/humaniora/2023/12/06/narasi-skor-pisa-indonesia-jangan-seolah-olah-prestasi)
 
 ## Business Understanding
-
 Kemampuan membaca generasi muda Indonesia berada dibawah rata-rata dunia. Hal ini tergambarkan dari skor PISA kita yang masih rendah pada kriteria soal matematika, membaca, dan sains. Memangnya skor PISA dapat mencerminkan apa? Berdasarkan artikel yang dikeluarkan oleh Universitas Negeri Surabaya, skor PISA dijadikan acuan oleh negara-negara sebagai indikator kualitas SDM Negara. Skor PISA yang sering dijadikan acuan karena beberapa alasan berikut :
   1. Indikator Esensial
   2. Komparatif Antarnegara
@@ -95,9 +94,6 @@ Dataset tersebut memiliki 3 file yang bernama `Books.csv`,`Ratings.csv`, dan `Us
   Variabel-variabel pada `Books.csv`:
   | **Variabel**         | **Deskripsi**                                                                                              |
   |----------------------|------------------------------------------------------------------------------------------------------------|
-  | **Users ID**          | ID user yang telah dimapping dan dianomalisasi menjadi data integer.                                        |
-  | **Location**          | Lokasi user dari negara, negara bagian, dan nama desa.                                                     |
-  | **Age**               | Umur dari user.                                                                                             |
   | **Book_Title**        | Judul buku yang telah dibaca.                                                                                |
   | **Book_Author**       | Penulis dari buku tersebut.                                                                                  |
   | **ISBN**              | Nomor identifikasi buku. Setiap buku dengan judul yang sama, tetapi memiliki penerbit atau tahun rilis yang berbeda memiliki ISBN yang berbeda. |
@@ -106,7 +102,6 @@ Dataset tersebut memiliki 3 file yang bernama `Books.csv`,`Ratings.csv`, dan `Us
   | **Image-URL-S**       | Gambar cover buku tersebut dengan ukuran Small.                                                              |
   | **Image-URL-M**       | Gambar cover buku tersebut dengan ukuran Medium.                                                             |
   | **Image-URL-L**       | Gambar cover buku tersebut dengan ukuran Large.                                                              |
-  | **Book-Rating**       | Hasil ulasan buku dari user dengan rentang 0 hingga 10.                                                      |
 
   Uraian pada `Ratings.csv`
 
@@ -163,7 +158,7 @@ Setelah dilakukan pengecekan, ternyata dataset df_ratings.csv cukup bersih tanpa
 
 ### Data preperation pada `df_users.csv`
 dataset ini memiliki 3 kolom, **User-ID**, **Location**, dan **Age**
-- Menghapus missin values
+- Menghapus missing values
 pada kolom **Age** terdapat 110762 data user yang belum memiliki data. Dengan jumlah sebanyak itu, akan disayangkan apabila kita menghapusnya semua dengan metode dropna. Maka kita dapat mengisinya dengan betode Group-by Location dimana kecenderungan di wilayah *A* memiliki rata-rata umur *X* tahun, maka data yang kosong apabila berada di wilayah *A* maka akan diisi dengan umur *X* tahun.
 - Pembenahan isi data Location
 Ketika dilihat lebih dalam, ternyata data lokasi user memiliki inputan yang tidak seragam dan cenderung redundan, seperti USA, US, America, United States, dll. Maka dari itu user melakukan manipulasi data dengan Regex dimana hanya mengambil negaranya saja.
@@ -178,6 +173,7 @@ Tahapan ini juga dilakukan untuk mempermudah proses pembuatan model sistem rekom
 - `Sampling` : Mengambil sebagian data(10.000 baris pertama) dari keseluruhan dataset.
 - `Merge` : menggunakan metode left join, menggabungkan dataframe berdasarkan kolom kunci(key) dan mempertahankan sisi kiri meskipun tidak ada pasangan yang cocok di dataframe sebelah kanan. Ini penting agar setiap interaksi user (misal: rating) punya konteks lengkap (misalnya judul buku, genre). Bisa menghasilkan fitur gabungan (misalnya rating buku berdasarkan genre, usia user, dsb). Model punya representasi lengkap terhadap relasi user–item.
 - `Series to List` : Proses mengubah object series menjadi list menggunakan metode .to_list() yang sudah disediakan oleh library pandas. Tujuannya adalah untuk mempersiapkan data sebelum masuk ke proses modeling yang melatih data berbasis list seperti sklearn dan operasi matrix yang akan kita lakukan dalam membangun sistem rekomendasi.
+- Data Splitting : Proses membagi seluruh dataset menjadi data latihan dan validasi. Proses ini dilakukan pada tahap modelling agar model dapat melatih dirinya dan juga melakukan validasi dengan data yang baru diluar data latih untuk menguji generalisasinya terhadap data baru. Proses spliting dibagi menjadi 70% data latih dan 30% data validasi.
 
 ## Model & Results
 Pada tahap ini, dilakukan proses pembangunan dan evaluasi model sistem rekomendasi buku untuk mendorong peningkatan minat baca generasi muda Indonesia. Sistem rekomendasi ini dibangun menggunakan dua pendekatan utama: **Content-Based Filtering** dan **Collaborative Filtering**, kemudian disajikan dalam bentuk Top-10 Recommendation sebagai output yang dipersonalisasi untuk setiap pengguna.
@@ -395,6 +391,9 @@ sehingga apabila divisualisasikan dalam bentuk tabel, maka hasil pendekatan kedu
 
 Hasil dari evaluasi matrix memberikan insight bahwa model memberikan hasil yang cukup baik untuk sistem rekomendasi dan memberikan generalisasi konten yang baik untuk rekomendasi buku berbasis judul dan penulis buku sehingga harapannya minat baca generasi muda Indonesia dapat meningkat, lalu menaikkan peringkat PISA Indonesia, dan dapat meningkatkan SDM Indonesia di kancah international.
 
+
+## Evaluation
+
 Dalam proyek ini, metrik evaluasi yang digunakan pada Content-Based Filtering adalah `Precision`, `Recall`, dan `F1-score` karena sistem rekomendasi yang dibangun bertujuan untuk memberikan daftar penulis yang paling mirip berdasarkan kesamaan dengan penulis yang sudah dibaca oleh pengguna. 
 - **Precision** mengukur seberapa banyak rekomendasi yang benar-benar ditulis oleh penulis yang sama dari seluruh hasil rekomendasi.
 - **Recall** mengukur sejauh mana sistem berhasil merekomendasikan seluruh buku dari penulis yang sama yang ada dalam dataset.
@@ -425,7 +424,6 @@ $$\text{RMSE}(y, \hat{y}) = \sqrt{\frac{\sum_{i=0}^{N - 1} (y_i - \hat{y}_i)^2}{
 $$\text{MAE}(y, \hat{y}) = \frac{\sum_{i=0}^{N - 1} |y_i - \hat{y}_i|}{N}$$
 
 
-## Evaluation
 Dengan sistem rekomendasi berbasis AI ini  dapat meningkatkan minat baca buku digenerasi muda sehingga bacaan mereka sesuai dengan minat/kebutuhannya. Kemudian sistem personalisasi dalam penyajian konten literasi juga ditingkatkan agar setiap anak juga memiliki personalisasinya masing-masing yang tersimpan pada agen sistem rekomendasi yang telah kita bangun. Dengan hasil ini `Goals` kita :
 1. Meningkatkan minat baca dan keterlibatan generasi muda Indonesia.✅
 <br>Hal ini tercapai karena sistem rekomendasi buku dapat melakuka personalisasi pembaca dengan buku yang ada sehingga Problem Statements kita yang pertama, **"Buku tidak sesuai minat/kebutuhan pembaca"** dapat terselesaikan
